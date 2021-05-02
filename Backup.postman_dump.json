@@ -1,0 +1,88 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "cfd7bf94-65ff-4d5d-958f-add2061c5ce7",
+			"uid": "0-cfd7bf94-65ff-4d5d-958f-add2061c5ce7",
+			"name": "CodeCamps",
+			"description": null,
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"a5cfff36-0347-4942-9673-0e36e34397a5",
+				"5f76c7c3-f97e-4839-8468-edfcb6940d78"
+			],
+			"folders_order": [],
+			"protocolProfileBehavior": {},
+			"createdAt": "2021-05-01T20:20:40.138Z",
+			"folders": [],
+			"requests": [
+				{
+					"id": "5f76c7c3-f97e-4839-8468-edfcb6940d78",
+					"uid": "0-5f76c7c3-f97e-4839-8468-edfcb6940d78",
+					"name": "codeCamps",
+					"url": "{{baseURL}}codeCamps",
+					"description": "",
+					"data": null,
+					"dataOptions": null,
+					"dataMode": null,
+					"headerData": null,
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"responses_order": [],
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "cfd7bf94-65ff-4d5d-958f-add2061c5ce7",
+					"pathVariables": {}
+				},
+				{
+					"id": "a5cfff36-0347-4942-9673-0e36e34397a5",
+					"uid": "0-a5cfff36-0347-4942-9673-0e36e34397a5",
+					"name": "camps",
+					"url": "{{baseURL}}camps",
+					"description": "",
+					"data": null,
+					"dataOptions": null,
+					"dataMode": null,
+					"headerData": null,
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"responses_order": [],
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "cfd7bf94-65ff-4d5d-958f-add2061c5ce7",
+					"pathVariables": {}
+				}
+			]
+		}
+	],
+	"environments": [
+		{
+			"id": "6dd2f3ff-c9ea-4ed0-99f7-b7e4a7d9f68c",
+			"name": "Local API development",
+			"values": [
+				{
+					"key": "baseURL",
+					"value": "https://localhost:44326/api/",
+					"enabled": true
+				}
+			]
+		},
+		{
+			"id": "a2ae9991-0203-40a4-841a-9bddc32d89e3",
+			"name": "My Workspace - globals",
+			"values": []
+		}
+	],
+	"headerPresets": [],
+	"globals": []
+}
