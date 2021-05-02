@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 
+using AutoMapper;
+
 using CoreCodeCamp.Data;
+using CoreCodeCamp.Models;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,19 +14,21 @@ namespace CoreCodeCamp.Controllers
     public class CampsController : ControllerBase
     {
         private readonly ICampRepository repository;
+        private readonly IMapper mapper;
 
-        public CampsController(ICampRepository repo)
+        public CampsController(ICampRepository repository, IMapper mapper)
         {
-            this.repository = repo;
+            this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<CampModel[]>> Get()
         {
             try
             {
-                var camps = await this.repository.GetAllCampsAsync();
-                return Ok( camps );
+                var camps = await repository.GetAllCampsAsync();
+                return mapper.Map<CampModel[]>( camps );
             }
             catch (System.Exception)
             {

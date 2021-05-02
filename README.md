@@ -26,3 +26,7 @@ https://app.pluralsight.com/library/courses/building-api-aspdotnet-core
  * Alternatively, Start Dedbugging. This will open a browser, and if you don't want it, set `"launchBrowser": false,` in src\Properties\launchSettings.json
 * Navigate to: https://localhost:5001/api/values
 
+# Map entities to models in controller actions
+* Install NuGet package Automapper.Extensions.Microsoft.Dependencyinjection
+* In Startup.cs/ConfigureServices add `services.AddAutoMapper( Assembly.GetExecutingAssembly() );`
+* 

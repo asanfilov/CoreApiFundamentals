@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using CoreCodeCamp.Data;
 
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +15,7 @@ namespace CoreCodeCamp
         {
             services.AddDbContext<CampContext>();
             services.AddScoped<ICampRepository, CampRepository>();
-
+            services.AddAutoMapper( Assembly.GetExecutingAssembly() );
             services.AddControllers();
         }
 
