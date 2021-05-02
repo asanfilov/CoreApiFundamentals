@@ -93,5 +93,6 @@ namespace CoreCodeCamp.Data
 
     }
 
+        public DbSet<CoreCodeCamp.Models.CampModel> CampModel { get; set; }
   }
 }
