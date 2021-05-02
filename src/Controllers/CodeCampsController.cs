@@ -6,6 +6,7 @@ using AutoMapper;
 using CoreCodeCamp.Data;
 using CoreCodeCamp.Models;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,22 +29,34 @@ namespace CoreCodeCamp.Controllers
         [HttpGet]
         public async Task<ActionResult<CampModel[]>> GetCamps()
         {
-            var camps = await _context.Camps.ToListAsync();
-            return mapper.Map<CampModel[]>( camps );
+            try
+            {
+                var camps = await _context.Camps.ToListAsync();
+                return mapper.Map<CampModel[]>( camps );
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+            }
         }
 
         // GET: api/CodeCamps/5
         [HttpGet( "{id}" )]
         public async Task<ActionResult<CampModel>> GetCamp(int id)
         {
-            var camp = await _context.Camps.FindAsync( id );
-
-            if (camp == null)
+            try
             {
-                return NotFound();
+                var camp = await _context.Camps.FindAsync( id );
+                if (camp == null)
+                {
+                    return NotFound();
+                }
+                return mapper.Map<CampModel>( camp );
             }
-
-            return mapper.Map<CampModel>( camp );
+            catch (System.Exception)
+            {
+                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+            }
         }
 
         // PUT: api/CodeCamps/5
@@ -51,30 +64,37 @@ namespace CoreCodeCamp.Controllers
         [HttpPut( "{id}" )]
         public async Task<IActionResult> PutCamp(int id, Camp camp)
         {
-            if (id != camp.CampId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry( camp ).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CampExists( id ))
+                if (id != camp.CampId)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                _context.Entry( camp ).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CampExists( id ))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+            }
         }
 
         // POST: api/CodeCamps
@@ -82,26 +102,40 @@ namespace CoreCodeCamp.Controllers
         [HttpPost]
         public async Task<ActionResult<Camp>> PostCamp(Camp camp)
         {
-            _context.Camps.Add( camp );
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Camps.Add( camp );
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction( "GetCamp", new { id = camp.CampId }, camp );
+                return CreatedAtAction( "GetCamp", new { id = camp.CampId }, camp );
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+            }
         }
 
         // DELETE: api/CodeCamps/5
         [HttpDelete( "{id}" )]
         public async Task<IActionResult> DeleteCamp(int id)
         {
-            var camp = await _context.Camps.FindAsync( id );
-            if (camp == null)
+            try
             {
-                return NotFound();
+                var camp = await _context.Camps.FindAsync( id );
+                if (camp == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Camps.Remove( camp );
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            _context.Camps.Remove( camp );
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (System.Exception)
+            {
+                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+            }
         }
 
         private bool CampExists(int id)
