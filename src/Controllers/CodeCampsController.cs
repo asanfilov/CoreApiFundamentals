@@ -1,49 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+
+using AutoMapper;
+
+using CoreCodeCamp.Data;
+using CoreCodeCamp.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CoreCodeCamp.Data;
 
 namespace CoreCodeCamp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route( "api/[controller]" )]
     [ApiController]
-    public class CampDataController : ControllerBase
+    public class CodeCampsController : ControllerBase
     {
         private readonly CampContext _context;
+        private readonly IMapper mapper;
 
-        public CampDataController(CampContext context)
+        public CodeCampsController(CampContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
-        // GET: api/CampData
+        // GET: api/CodeCamps
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Camp>>> GetCamps()
+        public async Task<ActionResult<CampModel[]>> GetCamps()
         {
-            return await _context.Camps.ToListAsync();
+            var camps = await _context.Camps.ToListAsync();
+            return mapper.Map<CampModel[]>( camps );
         }
 
-        // GET: api/CampData/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Camp>> GetCamp(int id)
+        // GET: api/CodeCamps/5
+        [HttpGet( "{id}" )]
+        public async Task<ActionResult<CampModel>> GetCamp(int id)
         {
-            var camp = await _context.Camps.FindAsync(id);
+            var camp = await _context.Camps.FindAsync( id );
 
             if (camp == null)
             {
                 return NotFound();
             }
 
-            return camp;
+            return mapper.Map<CampModel>( camp );
         }
 
-        // PUT: api/CampData/5
+        // PUT: api/CodeCamps/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut( "{id}" )]
         public async Task<IActionResult> PutCamp(int id, Camp camp)
         {
             if (id != camp.CampId)
@@ -51,7 +56,7 @@ namespace CoreCodeCamp.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(camp).State = EntityState.Modified;
+            _context.Entry( camp ).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +64,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CampExists(id))
+                if (!CampExists( id ))
                 {
                     return NotFound();
                 }
@@ -72,28 +77,28 @@ namespace CoreCodeCamp.Controllers
             return NoContent();
         }
 
-        // POST: api/CampData
+        // POST: api/CodeCamps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Camp>> PostCamp(Camp camp)
         {
-            _context.Camps.Add(camp);
+            _context.Camps.Add( camp );
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCamp", new { id = camp.CampId }, camp);
+            return CreatedAtAction( "GetCamp", new { id = camp.CampId }, camp );
         }
 
-        // DELETE: api/CampData/5
-        [HttpDelete("{id}")]
+        // DELETE: api/CodeCamps/5
+        [HttpDelete( "{id}" )]
         public async Task<IActionResult> DeleteCamp(int id)
         {
-            var camp = await _context.Camps.FindAsync(id);
+            var camp = await _context.Camps.FindAsync( id );
             if (camp == null)
             {
                 return NotFound();
             }
 
-            _context.Camps.Remove(camp);
+            _context.Camps.Remove( camp );
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -101,7 +106,7 @@ namespace CoreCodeCamp.Controllers
 
         private bool CampExists(int id)
         {
-            return _context.Camps.Any(e => e.CampId == id);
+            return _context.Camps.Any( e => e.CampId == id );
         }
     }
 }
