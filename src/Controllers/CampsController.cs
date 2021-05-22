@@ -96,6 +96,21 @@ namespace CoreCodeCamp.Controllers
 
             return BadRequest();
         }
+
+        [HttpPut( "{moniker}" )]
+        public async Task<ActionResult<CampModel>> Put(string moniker, CampModel campModel)
+        {
+            try
+            {
+                var existingCamp = await repository.GetCampAsync( moniker );
+                if (existingCamp == null) return NotFound( $"Could not find camp with moniker of {moniker}" );
+
+                mapper.Map( campModel, existingCamp );
+                if (await repository.SaveChangesAsync()) return mapper.Map<CampModel>( existingCamp );
+            }
+            catch (Exception ex)
+            {
+                return StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
             }
             return BadRequest();
         }
