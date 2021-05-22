@@ -9,6 +9,7 @@ using CoreCodeCamp.Models;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace CoreCodeCamp.Controllers
 {
@@ -18,11 +19,13 @@ namespace CoreCodeCamp.Controllers
     {
         private readonly ICampRepository repository;
         private readonly IMapper mapper;
+        private readonly LinkGenerator linkGenerator;
 
-        public CampsController(ICampRepository repository, IMapper mapper)
+        public CampsController(ICampRepository repository, IMapper mapper, LinkGenerator linkGenerator)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.linkGenerator = linkGenerator;
         }
 
         [HttpGet]
@@ -77,11 +80,18 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
+                string createdAt = linkGenerator.GetPathByAction( "GET", "camps",
+                                                                new { moniker = campModel.Moniker } );
+                if (string.IsNullOrWhiteSpace( createdAt ))
+                {
+                    return BadRequest( "Could not use current moniker" );
+                }
+
                 var camp = mapper.Map<Camp>( campModel );
                 repository.Add( camp );
                 if (await repository.SaveChangesAsync())
                 {
-                    return Created( $"/api/camps/{camp.Moniker}", mapper.Map<CampModel>( camp ) );
+                    return Created( createdAt, mapper.Map<CampModel>( camp ) );
                 }
             }
             catch (Exception ex)
