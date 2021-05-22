@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 using AutoMapper;
 
@@ -48,7 +50,23 @@ namespace CoreCodeCamp.Controllers
                 }
                 return mapper.Map<CampModel>( camp );
             }
-            catch (System.Exception)
+            catch (Exception ex)
+            {
+                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+            }
+        }
+
+        [HttpGet( "search" )]
+        public async Task<ActionResult<CampModel[]>> SearchByDate(DateTime theDate, bool includeTalks = false)
+        {
+            try
+            {
+                var camps = await repository.GetAllCampsByEventDate( theDate, includeTalks );
+                if (!camps.Any()) return NotFound();
+
+                return mapper.Map<CampModel[]>( camps );
+            }
+            catch (Exception ex)
             {
                 return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
             }
