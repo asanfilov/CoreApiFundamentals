@@ -80,6 +80,12 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
+                var existing = await repository.GetCampAsync( campModel.Moniker );
+                if (existing != null)
+                {
+                    return BadRequest( "Moniker is in use" );
+                }
+
                 string createdAt = linkGenerator.GetPathByAction( "GET", "camps",
                                                                 new { moniker = campModel.Moniker } );
                 if (string.IsNullOrWhiteSpace( createdAt ))
