@@ -11,9 +11,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}camps",
+					"raw": "{{baseURL}}camps?includeTalks=true",
 					"host": [
 						"{{baseURL}}camps"
+					],
+					"query": [
+						{
+							"key": "includeTalks",
+							"value": "true"
+						}
 					]
 				}
 			},
@@ -25,26 +31,54 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}codeCamps",
+					"raw": "{{baseURL}}codeCamps/ATL2018",
 					"host": [
 						"{{baseURL}}codeCamps"
+					],
+					"path": [
+						"ATL2018"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "camps/moniker",
+			"name": "camps/{moniker}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}camps/FD2021",
+					"raw": "{{baseURL}}camps/ATL2018?includeTalks=true",
 					"host": [
 						"{{baseURL}}camps"
 					],
 					"path": [
-						"FD2021"
+						"ATL2018"
+					],
+					"query": [
+						{
+							"key": "includeTalks",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "camps/{moniker}/talks/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}camps/ATL2018/talks/1",
+					"host": [
+						"{{baseURL}}camps"
+					],
+					"path": [
+						"ATL2018",
+						"talks",
+						"1"
 					]
 				}
 			},
@@ -56,7 +90,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseURL}}camps/search?theDate=2018-10-18&includeTalks=false",
+					"raw": "{{baseURL}}camps/search?theDate=2018-10-18&includeTalks=true",
 					"host": [
 						"{{baseURL}}camps"
 					],
@@ -70,7 +104,7 @@
 						},
 						{
 							"key": "includeTalks",
-							"value": "false"
+							"value": "true"
 						}
 					]
 				}
@@ -138,6 +172,134 @@
 					],
 					"path": [
 						"FD2021"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "camps/{moniker}/talks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}camps/ATL2018/Talks/8",
+					"host": [
+						"{{baseURL}}camps"
+					],
+					"path": [
+						"ATL2018",
+						"Talks",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "camps/{moniker}/talks",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \".NET Core API part 2\",\r\n    \"abstract\": \"Simple API from scratch in an hour\",\r\n    \"level\": 100,\r\n    \"speaker\": {\r\n        \"speakerId\":1\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}camps/ATL2018/Talks",
+					"host": [
+						"{{baseURL}}camps"
+					],
+					"path": [
+						"ATL2018",
+						"Talks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "camps/{moniker}/talks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}camps/ATL2018/Talks",
+					"host": [
+						"{{baseURL}}camps"
+					],
+					"path": [
+						"ATL2018",
+						"Talks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "camps/{moniker}/talks/8",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"talkId\": 8,\r\n    \"title\": \".NET Core API part 2\",\r\n    \"abstract\": \"Simple API from scratch in an hour\",\r\n    \"level\": 150,\r\n    \"speaker\": {\r\n        \"speakerId\": 2\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}camps/ATL2018/Talks/8",
+					"host": [
+						"{{baseURL}}camps"
+					],
+					"path": [
+						"ATL2018",
+						"Talks",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "operations/reloadconfig",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}camps/ATL2018/Talks/11",
+					"host": [
+						"{{baseURL}}camps"
+					],
+					"path": [
+						"ATL2018",
+						"Talks",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "operations/reloadconfig",
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}operations/reloadconfig",
+					"host": [
+						"{{baseURL}}operations"
+					],
+					"path": [
+						"reloadconfig"
 					]
 				}
 			},
