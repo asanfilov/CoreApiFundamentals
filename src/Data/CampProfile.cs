@@ -13,7 +13,10 @@ namespace CoreCodeCamp.Data
                 .ReverseMap();
 
             this.CreateMap<Talk, TalkModel>()
-                .ReverseMap();
+                .ReverseMap()
+                //do not overwrite Talk properties with what's in TalkModel (that's why it needs to be after .ReverseMap)
+                .ForMember( t => t.Camp, opt => opt.Ignore() )
+                .ForMember( t => t.Speaker, opt => opt.Ignore() );
 
             this.CreateMap<Speaker, SpeakerModel>()
                 .ReverseMap();

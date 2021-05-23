@@ -11,7 +11,7 @@ namespace CoreCodeCamp.Models
         public string Title { get; set; }
 
         [Required]
-        [StringLength( 4000, MinimumLength = 100 )]
+        [StringLength( 4000, MinimumLength = 20 )]
         public string Abstract { get; set; }
 
         [Range( 100, 300 )]
