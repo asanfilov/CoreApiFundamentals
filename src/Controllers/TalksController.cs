@@ -31,7 +31,7 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
-                var talks = await repository.GetTalksByMonikerAsync( moniker );
+                var talks = await repository.GetTalksByMonikerAsync( moniker, true );
                 return mapper.Map<TalkModel[]>( talks );
             }
             catch (System.Exception ex)
@@ -45,7 +45,7 @@ namespace CoreCodeCamp.Controllers
         {
             try
             {
-                var talk = await repository.GetTalkByMonikerAsync( moniker, id );
+                var talk = await repository.GetTalkByMonikerAsync( moniker, id, true );
                 return mapper.Map<TalkModel>( talk );
             }
             catch (System.Exception ex)
