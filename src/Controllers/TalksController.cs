@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using AutoMapper;
 
@@ -46,6 +47,7 @@ namespace CoreCodeCamp.Controllers
             try
             {
                 var talk = await repository.GetTalkByMonikerAsync( moniker, id, true );
+                if (talk == null) return NotFound( "Talk could not be found" );
                 return mapper.Map<TalkModel>( talk );
             }
             catch (System.Exception ex)
@@ -122,8 +124,28 @@ namespace CoreCodeCamp.Controllers
                 }
             }
             catch (System.Exception ex)
+
+        [HttpDelete( "{id:int}" )]
+        public async Task<IActionResult> Delete(string moniker, int id)
+        {
+            try
             {
-                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+                var talk = await repository.GetTalkByMonikerAsync( moniker, id );
+                if (talk == null) return NotFound( "Talk could not be found" );
+
+                repository.Delete( talk );
+                if (await repository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return StatusCode( StatusCodes.Status500InternalServerError, "Failed to delete the Talk" );
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
             }
         }
     }
