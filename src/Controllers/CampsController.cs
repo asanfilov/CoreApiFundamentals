@@ -36,9 +36,9 @@ namespace CoreCodeCamp.Controllers
                 var camps = await repository.GetAllCampsAsync( includeTalks );
                 return mapper.Map<CampModel[]>( camps );
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+                return StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
             }
         }
 

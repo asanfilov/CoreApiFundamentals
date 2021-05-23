@@ -35,9 +35,9 @@ namespace CoreCodeCamp.Controllers
                 var talks = await repository.GetTalksByMonikerAsync( moniker, true );
                 return mapper.Map<TalkModel[]>( talks );
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+                return StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
             }
         }
 
@@ -50,9 +50,9 @@ namespace CoreCodeCamp.Controllers
                 if (talk == null) return NotFound( "Talk could not be found" );
                 return mapper.Map<TalkModel>( talk );
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+                return StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
             }
         }
 
@@ -86,12 +86,10 @@ namespace CoreCodeCamp.Controllers
                 {
                     return BadRequest( "Failed to save new Talk" );
                 }
-
-                return mapper.Map<TalkModel>( talk );
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                return this.StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+                return StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
             }
         }
 
@@ -123,7 +121,11 @@ namespace CoreCodeCamp.Controllers
                     return BadRequest( "Failed to update the Talk" );
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
+            {
+                return StatusCode( StatusCodes.Status500InternalServerError, "Database failure" );
+            }
+        }
 
         [HttpDelete( "{id:int}" )]
         public async Task<IActionResult> Delete(string moniker, int id)
